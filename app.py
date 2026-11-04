@@ -1,19 +1,28 @@
 from pathlib import Path
 from uuid import uuid4
-import requests # Make sure to add 'requests' to requirements.txt
-import json
+import os
+import datetime
+
+# MUST be set before importing TensorFlow
+os.environ["TF_USE_LEGACY_KERAS"] = "1"
+
+import tensorflow as tf
+from transformers import AutoTokenizer, TFBertModel
+import joblib
+import numpy as np
 
 from fastapi import FastAPI, Request
 from fastapi.responses import HTMLResponse, RedirectResponse, FileResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 
+# PDF Generation Imports
 from reportlab.lib.pagesizes import letter
 from reportlab.pdfgen import canvas
 from reportlab.lib import colors
 from reportlab.lib.units import inch
-import datetime
 
+# --- Setup Directories ---
 BASE_DIR = Path(__file__).resolve().parent
 MODEL_DIR = BASE_DIR / "artifacts"
 TEMPLATE_DIR = BASE_DIR / "templates"
@@ -23,15 +32,23 @@ app = FastAPI(title="VitalScan AI", version="6.0.0")
 app.mount("/static", StaticFiles(directory=STATIC_DIR), name="static")
 templates = Jinja2Templates(directory=str(TEMPLATE_DIR))
 
+# --- Load AI Models ---
 print("Loading Models...")
-keras_model = tf.keras.models.load_model(
-    MODEL_DIR / "keras_multimodal.keras",
-    custom_objects={"TFBertModel": TFBertModel}
-)
-tokenizer = AutoTokenizer.from_pretrained("dmis-lab/biobert-base-cased-v1.2")
-scaler = joblib.load(MODEL_DIR / "numeric_scaler.joblib")
-print("✅ Models loaded!")
+try:
+    keras_model = tf.keras.models.load_model(
+        MODEL_DIR / "keras_multimodal.keras",
+        custom_objects={"TFBertModel": TFBertModel}
+    )
+    tokenizer = AutoTokenizer.from_pretrained("dmis-lab/biobert-base-cased-v1.2")
+    scaler = joblib.load(MODEL_DIR / "numeric_scaler.joblib")
+    print("✅ Models loaded successfully!")
+except Exception as e:
+    print(f"⚠️ WARNING: Could not load models. Error: {e}")
+    keras_model = None
+    tokenizer = None
+    scaler = None
 
+# In-memory cache for reports
 REPORT_CACHE = {}
 
 GUIDANCE = {
@@ -77,19 +94,19 @@ GUIDANCE = {
         "urgent": "A rapid or irregular heartbeat with chest pain or fainting needs emergency assessment."},
 }
 
-def render(template_name: str, request: Request, **context):
-    return templates.TemplateResponse(request=request, name=template_name, context=context)
-
 @app.get("/", response_class=HTMLResponse)
 def index(request: Request):
-    return render("index.html", request)
+    return templates.TemplateResponse(request=request, name="index.html")
 
 @app.get("/profile", response_class=HTMLResponse)
 def profile(request: Request):
-    return render("profile.html", request, error=None)
+    return templates.TemplateResponse(request=request, name="profile.html", context={"error": None})
 
 @app.post("/predict", response_class=HTMLResponse)
 async def predict(request: Request):
+    if not keras_model:
+        return templates.TemplateResponse(request=request, name="profile.html", context={"error": "AI models are not loaded on the server."})
+
     try:
         form_data = await request.form()
         
@@ -110,7 +127,7 @@ async def predict(request: Request):
         ])
         base_score = float(prediction[0][0]) * 100
         
-        # 4. Explainability
+        # 4. Explainability (SHAP-style)
         age_impact = (numeric_values[0] - 40) * 0.2
         bmi_impact = (numeric_values[1] - 25) * 0.5
         glucose_impact = (numeric_values[2] - 100) * 0.1
@@ -183,32 +200,28 @@ async def predict(request: Request):
     except Exception as exc:
         import traceback
         traceback.print_exc()
-        return render("profile.html", request, error=str(exc))
+        return templates.TemplateResponse(request=request, name="profile.html", context={"error": str(exc)})
 
 @app.get("/report/{report_id}", response_class=HTMLResponse)
 def show_report(request: Request, report_id: str):
     result = REPORT_CACHE.get(report_id)
     if not result:
         return RedirectResponse(url="/profile", status_code=303)
-    return render("report.html", request, result=result)
+    return templates.TemplateResponse(request=request, name="report.html", context={"result": result})
     
 @app.get("/next-steps/{report_id}", response_class=HTMLResponse)
 def next_steps(request: Request, report_id: str):
     result = REPORT_CACHE.get(report_id)
     if not result:
         return RedirectResponse(url="/profile", status_code=303)
-    return render("next_steps.html", request, result=result)
+    return templates.TemplateResponse(request=request, name="next_steps.html", context={"result": result})
 
-# ==========================================
-# NEW PDF GENERATOR ROUTE
-# ==========================================
 @app.get("/download-pdf/{report_id}")
 def download_pdf(report_id: str):
     result = REPORT_CACHE.get(report_id)
     if not result:
         return RedirectResponse(url="/profile", status_code=303)
     
-    # Create the PDF
     pdf_filename = f"VitalScan_Report_{report_id[:8]}.pdf"
     c = canvas.Canvas(pdf_filename, pagesize=letter)
     width, height = letter
@@ -222,7 +235,6 @@ def download_pdf(report_id: str):
     c.drawString(1 * inch, height - 1.5 * inch, f"Age: {result['age']} | BMI: {result['bmi']}")
     c.drawString(1 * inch, height - 1.7 * inch, f"Date: {datetime.date.today().strftime('%B %d, %Y')}")
     
-    # Line separator
     c.setStrokeColor(colors.grey)
     c.line(1 * inch, height - 1.8 * inch, width - 1 * inch, height - 1.8 * inch)
 
@@ -256,9 +268,8 @@ def download_pdf(report_id: str):
 
     c.save()
     
-    # Return the file for download
-    return FileResponse(
-        path=pdf_filename, 
-        filename=pdf_filename, 
-        media_type='application/pdf'
-    )
+    return FileResponse(path=pdf_filename, filename=pdf_filename, media_type='application/pdf')
+
+if __name__ == "__main__":
+    import uvicorn
+    uvicorn.run(app, host="127.0.0.1", port=8000)
