@@ -2,11 +2,5 @@ fastapi
 uvicorn
 jinja2
 python-multipart
-tensorflow-cpu
-transformers
-scikit-learn
-pandas
-numpy
-joblib
-shap
-tf-keras
+reportlab
+requests

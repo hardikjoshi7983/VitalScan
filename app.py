@@ -1,20 +1,13 @@
 from pathlib import Path
 from uuid import uuid4
-import os
-import tensorflow as tf
+import requests # Make sure to add 'requests' to requirements.txt
+import json
 
-# Keep this at the very top!
-os.environ["TF_USE_LEGACY_KERAS"] = "1"
-
-from transformers import AutoTokenizer, TFBertModel
-import joblib
-import numpy as np
 from fastapi import FastAPI, Request
 from fastapi.responses import HTMLResponse, RedirectResponse, FileResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 
-# PDF Generation Imports
 from reportlab.lib.pagesizes import letter
 from reportlab.pdfgen import canvas
 from reportlab.lib import colors
