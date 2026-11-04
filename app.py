@@ -6,7 +6,7 @@ import tensorflow as tf
 # Keep this at the very top!
 os.environ["TF_USE_LEGACY_KERAS"] = "1"
 
-from transformers import AutoTokenizer, BertModel
+from transformers import AutoTokenizer, TFBertModel
 import joblib
 import numpy as np
 from fastapi import FastAPI, Request
