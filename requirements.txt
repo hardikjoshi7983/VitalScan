@@ -2,7 +2,7 @@ fastapi
 uvicorn
 jinja2
 python-multipart
-tensorflow-cpu
+tensorflow
 transformers
 scikit-learn
 pandas
