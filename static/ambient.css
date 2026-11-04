@@ -1,0 +1,131 @@
+/* =========================================
+   EDITORIAL LINE-ART & SHAPE ANIMATIONS (FIXED)
+   ========================================= */
+
+/* Ensure body allows scrolling */
+html, body {
+  overflow-x: hidden;
+  overflow-y: auto;
+  height: auto;
+  min-height: 100vh;
+}
+
+/* 1. The subtle diagonal line pattern background */
+.bg-line-pattern {
+  position: fixed;
+  inset: 0;
+  z-index: -2;
+  pointer-events: none; /* CRUCIAL: Stops it from blocking scroll */
+  background-image: repeating-linear-gradient(
+    45deg,
+    transparent,
+    transparent 49px,
+    rgba(122, 148, 113, 0.05) 49px,
+    rgba(122, 148, 113, 0.05) 50px
+  );
+}
+
+/* 2. Sweeping SVG Lines */
+.bg-curves {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none; /* CRUCIAL */
+  overflow: hidden;
+}
+
+.curve-svg {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  pointer-events: none; /* CRUCIAL */
+}
+
+.curve-path {
+  fill: none;
+  stroke: var(--sage);
+  stroke-width: 1.5;
+  opacity: 0.2;
+  stroke-dasharray: 1000;
+  stroke-dashoffset: 1000;
+  animation: drawLine 8s linear infinite alternate;
+}
+
+.curve-path-2 {
+  fill: none;
+  stroke: var(--terracotta);
+  stroke-width: 1;
+  opacity: 0.3;
+  stroke-dasharray: 2000;
+  stroke-dashoffset: 2000;
+  animation: drawLine 12s linear infinite alternate-reverse;
+}
+
+/* 3. Floating Dotted Orbits */
+.floating-orbit {
+  position: absolute;
+  border: 1px dashed rgba(122, 148, 113, 0.3);
+  border-radius: 50%;
+  pointer-events: none; /* CRUCIAL */
+  animation: floatOrbit 10s ease-in-out infinite alternate;
+}
+
+.floating-orbit::after {
+  content: "";
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--terracotta);
+  top: 15%;
+  right: 10%;
+  box-shadow: 0 0 10px var(--terracotta);
+}
+
+.orbit-1 {
+  width: 400px; height: 400px;
+  top: 10%; right: -100px;
+  animation-duration: 14s;
+}
+
+.orbit-2 {
+  width: 250px; height: 250px;
+  top: 60%; left: 5%;
+  border-color: rgba(196, 122, 94, 0.2);
+}
+
+.orbit-2::after { 
+  background: var(--sage); 
+  box-shadow: 0 0 10px var(--sage); 
+  top: auto; bottom: 20%; left: 5%; right: auto; 
+}
+
+/* 4. Large Soft Orbs */
+.bg-soft-orb {
+  position: fixed;
+  border-radius: 50%;
+  pointer-events: none; /* CRUCIAL */
+  z-index: -3;
+  filter: blur(40px);
+}
+.soft-orb-1 {
+  width: 600px; height: 600px;
+  top: -200px; right: -100px;
+  background: radial-gradient(circle, rgba(246, 223, 214, 0.6) 0%, transparent 70%);
+}
+.soft-orb-2 {
+  width: 500px; height: 500px;
+  bottom: -200px; left: -100px;
+  background: radial-gradient(circle, rgba(232, 240, 227, 0.6) 0%, transparent 70%);
+}
+
+/* Keyframes */
+@keyframes drawLine {
+  0% { stroke-dashoffset: 1000; }
+  100% { stroke-dashoffset: 0; }
+}
+
+@keyframes floatOrbit {
+  0% { transform: translate(0, 0) rotate(0deg); }
+  100% { transform: translate(-20px, 30px) rotate(10deg); }
+}

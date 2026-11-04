@@ -1,0 +1,267 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>VitalScan | Understand Your Health Patterns</title>
+  <link rel="stylesheet" href="/static/ambient.css">
+  <link rel="stylesheet" href="/static/index.css">
+</head>
+<body>
+
+  <!-- BACKGROUND LINE ART & ANIMATIONS -->
+  <div class="bg-line-pattern"></div>
+  <div class="bg-soft-orb soft-orb-1"></div>
+  <div class="bg-soft-orb soft-orb-2"></div>
+  
+  <div class="bg-curves">
+    <svg class="curve-svg" viewBox="0 0 100 100" preserveAspectRatio="none">
+      <path class="curve-path" d="M -10,50 C 20,10 40,90 110,40" />
+      <path class="curve-path-2" d="M -10,70 C 30,100 50,20 110,60" />
+    </svg>
+  </div>
+
+  <div class="floating-orbit orbit-1"></div>
+  <div class="floating-orbit orbit-2"></div>
+
+  <!-- PAGE LOADER -->
+  <div class="page-loader" role="status" aria-label="Loading VitalScan">
+    <div class="loader-logo">VitalScan</div>
+    <div class="loader-bar"><i></i></div>
+    <div class="loader-text">Preparing your insights…</div>
+  </div>
+
+  <!-- NAVIGATION -->
+  <header class="topbar">
+    <div class="topbar-inner">
+      <a class="brand" href="/">
+        VitalScan
+      </a>
+      <ul class="nav-links">
+        <li><a href="#features">Features</a></li>
+        <li><a href="#how">How it works</a></li>
+        <li><a href="#patterns">Patterns</a></li>
+      </ul>
+      <a class="nav-cta" href="/profile">Get Started <span>→</span></a>
+    </div>
+  </header>
+
+  <main>
+    <!-- HERO SECTION -->
+    <section class="hero">
+      <div class="hero-inner">
+        <div class="hero-copy">
+          <div class="eyebrow">Personal health analytics</div>
+          <h1>Understand your<br><em>health patterns</em><br>in plain language.</h1>
+          <p class="lead">
+            Enter a few measurements and get a calm, readable report with
+            visual pattern summaries and educational next steps.
+            Built as a student project — not a medical device.
+          </p>
+          <div class="hero-actions">
+            <a href="/profile" class="btn btn-primary">
+              Build your snapshot <span class="btn-arrow">→</span>
+            </a>
+            <a href="#how" class="btn btn-secondary">See how it works</a>
+          </div>
+          <div class="hero-stats">
+            <div><strong>08</strong><span>Pattern categories</span></div>
+            <div><strong>04</strong><span>Model families</span></div>
+            <div><strong>03</strong><span>Report stages</span></div>
+          </div>
+        </div>
+
+        <!-- FOREGROUND ANIMATED HEART -->
+        <div class="hero-art">
+          <div class="art-ring art-ring-1"></div>
+          <div class="art-ring art-ring-2"></div>
+          
+          <div class="particle-orbit">
+            <div class="particle"></div>
+            <div class="particle"></div>
+            <div class="particle"></div>
+            <div class="particle"></div>
+          </div>
+
+          <div class="heart-3d-wrapper">
+            <img src="/static/heart.png" alt="Anatomical Heart" class="real-heart-img">
+            <div class="heart-shadow"></div>
+          </div>
+
+          <div class="floating-badge badge-top">
+            <span class="dot"></span> Live Vitals
+          </div>
+          <div class="floating-badge badge-bottom">
+            <strong>98.6°</strong> Temp
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FEATURES SECTION -->
+    <section id="features" class="features reveal">
+      <div class="features-inner">
+        <div class="section-head">
+          <div class="eyebrow" style="justify-content:center;">Why this exists</div>
+          <h2>More than predictions.<br><em>It's your health story.</em></h2>
+          <p class="lead">Clear visuals, honest limitations, and a hand-built interface made by a student, not a marketing team.</p>
+        </div>
+        <div class="feature-grid">
+          <article class="feature-card reveal reveal-delay-1">
+            <div class="feature-icon">♙</div>
+            <h3>Personalized insights</h3>
+            <p>Your measurements organized into a clearer, readable picture.</p>
+          </article>
+          <article class="feature-card reveal reveal-delay-2">
+            <div class="feature-icon">♧</div>
+            <h3>Explainable AI</h3>
+            <p>See the patterns behind each experimental model score.</p>
+          </article>
+          <article class="feature-card reveal reveal-delay-3">
+            <div class="feature-icon">◇</div>
+            <h3>Private by design</h3>
+            <p>A local educational prototype. No accounts, no cloud storage.</p>
+          </article>
+          <article class="feature-card reveal reveal-delay-3">
+            <div class="feature-icon">▥</div>
+            <h3>8 health patterns</h3>
+            <p>Separate patterns, each with a simple visual summary.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- HOW IT WORKS SECTION -->
+    <section id="how" class="how">
+      <div class="how-inner">
+        <div class="section-head reveal">
+          <div class="eyebrow" style="justify-content:center;">Simple process</div>
+          <h2>How it works</h2>
+          <p class="lead">Four short steps from your measurements to a readable next-step guide.</p>
+        </div>
+        <div class="how-grid">
+          <article class="step-card reveal reveal-delay-1">
+            <div class="step-num">01</div>
+            <h3>Enter your details</h3>
+            <p>Fill in your personal and health measurements on the profile page.</p>
+          </article>
+          <article class="step-card reveal reveal-delay-2">
+            <div class="step-num">02</div>
+            <h3>AI analysis</h3>
+            <p>Our models explore patterns in your entered data.</p>
+          </article>
+          <article class="step-card reveal reveal-delay-3">
+            <div class="step-num">03</div>
+            <h3>View your report</h3>
+            <p>Explore charts, scores, and a readable summary.</p>
+          </article>
+          <article class="step-card reveal reveal-delay-3">
+            <div class="step-num">04</div>
+            <h3>Get next steps</h3>
+            <p>Review general educational guidance and warning signs.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- PATTERNS SECTION -->
+    <section id="patterns" class="patterns">
+      <div class="patterns-inner">
+        <div class="section-head reveal">
+          <div class="eyebrow" style="justify-content:center;">Explore</div>
+          <h2>8 health patterns at a glance</h2>
+          <p class="lead">Each pattern is an experimental model output — not a diagnosis.</p>
+        </div>
+        <div class="pattern-grid">
+          <div class="pattern-card reveal reveal-delay-1">
+            <span class="pattern-icon">♡</span>
+            <div><b>Cardiovascular</b><small>Heart &amp; blood pressure</small></div>
+          </div>
+          <div class="pattern-card reveal reveal-delay-1">
+            <span class="pattern-icon">♧</span>
+            <div><b>Metabolic</b><small>Glucose &amp; insulin</small></div>
+          </div>
+          <div class="pattern-card reveal reveal-delay-2">
+            <span class="pattern-icon">◉</span>
+            <div><b>Sleep quality</b><small>Rest &amp; recovery</small></div>
+          </div>
+          <div class="pattern-card reveal reveal-delay-2">
+            <span class="pattern-icon">⌁</span>
+            <div><b>Stress</b><small>Mental well-being</small></div>
+          </div>
+          <div class="pattern-card reveal reveal-delay-3">
+            <span class="pattern-icon">♧</span>
+            <div><b>Activity</b><small>Physical movement</small></div>
+          </div>
+          <div class="pattern-card reveal reveal-delay-3">
+            <span class="pattern-icon">◇</span>
+            <div><b>Nutrition</b><small>Diet &amp; nutrients</small></div>
+          </div>
+          <div class="pattern-card reveal reveal-delay-3">
+            <span class="pattern-icon">♡</span>
+            <div><b>Hydration</b><small>Fluid balance</small></div>
+          </div>
+          <div class="pattern-card reveal reveal-delay-3">
+            <span class="pattern-icon">✧</span>
+            <div><b>Wellness</b><small>Overall balance</small></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA BANNER -->
+    <section class="cta-banner reveal">
+      <div class="cta-inner">
+        <div>
+          <div class="eyebrow">Your next step</div>
+          <h2>Ready to see your own health snapshot?</h2>
+          <p>Start with a few measurements. The whole thing takes about two minutes.</p>
+        </div>
+        <a href="/profile" class="btn btn-primary">
+          Build your snapshot <span class="btn-arrow">→</span>
+        </a>
+      </div>
+    </section>
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <div><strong>VitalScan</strong> · Student project</div>
+      <div>Built with Python, FastAPI, scikit-learn &amp; CSS</div>
+    </div>
+  </footer>
+
+  <!-- SCRIPTS -->
+  <script>
+    (function(){
+      const loader = document.querySelector('.page-loader');
+      if(loader) {
+        loader.addEventListener('animationend', () => loader.classList.add('loader-hide'));
+        document.querySelectorAll('a[href]').forEach(a => {
+          a.addEventListener('click', e => {
+            const u = new URL(a.href, location.href);
+            if(u.origin === location.origin && u.pathname !== location.pathname && !a.target && !e.metaKey && !e.ctrlKey && !e.shiftKey){
+              loader.classList.remove('loader-hide');
+              loader.style.animation = 'none'; void loader.offsetWidth; loader.style.animation = '';
+            }
+          });
+        });
+      }
+
+      const revealElements = document.querySelectorAll('.reveal');
+      if(revealElements.length > 0) {
+        const observer = new IntersectionObserver((entries) => {
+          entries.forEach(entry => {
+            if(entry.isIntersecting) {
+              entry.target.classList.add('is-visible');
+              observer.unobserve(entry.target);
+            }
+          });
+        }, { threshold: 0.15 });
+        revealElements.forEach(el => observer.observe(el));
+      }
+    })();
+  </script>
+</body>
+</html>

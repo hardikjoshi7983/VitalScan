@@ -1,0 +1,111 @@
+@import url('/static/base.css');
+
+/* ============ HERO SECTION ============ */
+.guide-hero {
+  width: 100%; padding: 64px 0 48px;
+  background: transparent;
+  border-bottom: 1px solid var(--line);
+}
+.guide-hero-inner {
+  max-width: 1400px; margin: 0 auto; padding: 0 32px;
+  display: grid; grid-template-columns: 1fr 200px; gap: 40px; align-items: center;
+}
+.guide-hero h1 { font-size: clamp(32px, 4vw, 48px); margin: 0 0 16px; line-height: 1.1; }
+.guide-hero h1 em { font-style: italic; color: var(--terracotta); font-weight: 500; }
+.guide-hero .lead { font-size: 15px; color: var(--slate-soft); max-width: 650px; }
+
+/* Static Orb (No Spin) */
+.guide-orb-wrapper {
+  position: relative; justify-self: center; width: 170px; height: 170px;
+}
+.guide-orb {
+  width: 170px; height: 170px; border-radius: 50%;
+  display: grid; place-items: center;
+  background: conic-gradient(from 0deg, var(--sage) 0 25%, var(--clay) 25% 50%, var(--terracotta) 50% 75%, var(--sage) 75% 100%);
+  position: relative;
+}
+.guide-orb:before { content: ""; position: absolute; inset: 12px; border-radius: 50%; background: var(--cream); }
+.guide-orb-inner {
+  position: relative; z-index: 1; text-align: center;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+}
+.guide-orb-inner small { display: block; font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--slate-soft); font-weight: 600; }
+.guide-orb-inner strong { display: block; font-family: 'Fraunces', serif; font-size: 38px; color: var(--slate); font-weight: 600; margin: 2px 0; }
+
+/* ============ GUIDANCE LIST ============ */
+.guide-section { width: 100%; padding: 56px 0; background: transparent; }
+.guide-section-inner { max-width: 1400px; margin: 0 auto; padding: 0 32px; }
+.guide-list { display: grid; gap: 20px; }
+
+.guide-card {
+  background: var(--cream); border: 1px solid var(--line); border-radius: 20px;
+  padding: 32px; position: relative; overflow: hidden;
+}
+.guide-card:before {
+  content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 4px;
+  background: var(--sage);
+}
+.guide-card:nth-child(3n+2):before { background: var(--terracotta); }
+.guide-card:nth-child(3n):before { background: #6b7a8f; }
+
+.guide-head {
+  display: flex; align-items: flex-start; justify-content: space-between; gap: 20px;
+  padding-bottom: 20px; margin-bottom: 20px; border-bottom: 1px solid var(--line);
+}
+.guide-head-left { display: flex; gap: 16px; align-items: flex-start; flex: 1; }
+.guide-number {
+  display: grid; place-items: center; width: 42px; height: 42px; border-radius: 10px;
+  background: var(--white); border: 1px solid var(--line); font-family: 'Fraunces', serif;
+  font-size: 15px; font-weight: 600; color: var(--slate); flex-shrink: 0;
+}
+.guide-head h3 { font-size: 18px; font-weight: 600; margin: 0 0 4px; color: var(--slate); }
+.guide-head small { display: block; font-size: 13px; color: var(--slate-soft); }
+
+.score-pill {
+  padding: 8px 16px; background: var(--sage-light); color: var(--sage-dark);
+  border-radius: 999px; font-size: 13px; font-weight: 600; white-space: nowrap; flex-shrink: 0;
+}
+.guide-card:nth-child(3n+2) .score-pill { background: var(--terracotta-light); color: var(--terracotta); }
+
+.guide-columns { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-bottom: 20px; }
+.guide-col { padding: 20px; background: var(--white); border: 1px solid var(--line); border-radius: 12px; }
+.guide-col .label {
+  font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; font-weight: 700;
+  color: var(--sage-dark); margin: 0 0 8px;
+}
+.guide-card:nth-child(3n+2) .guide-col .label { color: var(--terracotta); }
+.guide-col p:not(.label) { font-size: 13px; line-height: 1.7; color: var(--slate-soft); margin: 0; }
+
+.guide-urgent {
+  padding: 16px 20px; background: var(--terracotta-light); border: 1px solid rgba(196, 122, 94, 0.22);
+  border-radius: 12px; font-size: 13px; line-height: 1.6; color: #8f5a3e;
+}
+.guide-urgent b { color: #8f4a2e; font-weight: 700; }
+
+/* ============ FINAL NOTE & ACTIONS ============ */
+.final-note { max-width: 1400px; margin: 24px auto 0; padding: 0 32px; }
+.final-note-inner {
+  display: flex; gap: 20px; padding: 28px 32px; background: var(--sage-light);
+  border: 1px solid var(--sage); border-radius: 20px;
+}
+.final-note-icon { font-size: 28px; color: var(--sage-dark); flex-shrink: 0; }
+.final-note h3 { font-size: 17px; font-weight: 600; margin: 0 0 8px; color: var(--slate); }
+.final-note p { font-size: 14px; line-height: 1.7; color: var(--slate-soft); margin: 0; }
+
+.guide-actions {
+  max-width: 1400px; margin: 40px auto 0; padding: 0 32px;
+  display: flex; align-items: center; justify-content: center; gap: 16px; flex-wrap: wrap;
+}
+
+/* ============ RESPONSIVE ============ */
+@media (max-width: 900px) {
+  .guide-hero-inner { grid-template-columns: 1fr; }
+  .guide-orb-wrapper { display: none; }
+  .guide-columns { grid-template-columns: 1fr; gap: 16px; }
+  .guide-head { flex-direction: column; align-items: flex-start; }
+}
+@media (max-width: 640px) {
+  .guide-hero-inner, .guide-section-inner, .final-note, .guide-actions { padding: 0 20px; }
+  .guide-card { padding: 24px 20px; }
+  .final-note-inner { padding: 24px; flex-direction: column; }
+}

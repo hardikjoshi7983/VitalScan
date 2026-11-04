@@ -1,0 +1,280 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Your health snapshot | VitalScan</title>
+  <link rel="stylesheet" href="/static/ambient.css">
+  <link rel="stylesheet" href="/static/report.css">
+</head>
+<body>
+
+  <!-- BACKGROUND LINE ART & ANIMATIONS -->
+  <div class="bg-line-pattern"></div>
+  <div class="bg-soft-orb soft-orb-1"></div>
+  <div class="bg-soft-orb soft-orb-2"></div>
+  
+  <div class="bg-curves">
+    <svg class="curve-svg" viewBox="0 0 100 100" preserveAspectRatio="none">
+      <path class="curve-path" d="M -10,40 C 20,10 40,80 110,30" />
+      <path class="curve-path-2" d="M -10,90 C 40,120 50,40 110,80" />
+    </svg>
+  </div>
+
+  <div class="floating-orbit orbit-1"></div>
+  <div class="floating-orbit orbit-2"></div>
+
+  <!-- PAGE LOADER -->
+  <div class="page-loader" role="status" aria-label="Loading VitalScan">
+    <div class="loader-logo">VitalScan</div>
+    <div class="loader-bar"><i></i></div>
+    <div class="loader-text">Building your report…</div>
+  </div>
+
+  <header class="topbar">
+    <div class="topbar-inner">
+      <a class="brand" href="/">
+        VitalScan
+      </a>
+      <ul class="nav-links">
+        <li><a href="/">Home</a></li>
+        <li><a href="/profile">New profile</a></li>
+      </ul>
+      <a class="nav-cta" href="/profile">← Edit profile</a>
+    </div>
+  </header>
+
+  <main>
+    <div class="report-topline" style="max-width:1400px; margin:0 auto; padding: 20px 32px; display:flex; justify-content:space-between; font-size:13px; color:var(--slate-soft);">
+      <a href="/profile" style="color:var(--sage-dark); font-weight:600;">← Edit profile</a>
+      <span>Snapshot generated · Keras Multi-Modal Demo</span>
+    </div>
+
+    <section class="report-hero">
+      <div class="report-hero-inner">
+        <div>
+          <div class="eyebrow">Your health snapshot</div>
+          <h1>Signals at a glance,<br><em>{{ result.name }}.</em></h1>
+          <p class="lead">
+            Your submitted measurements, eight experimental model patterns,
+            and general symptom information. Scores are sorted highest first
+            for navigation — not medical urgency.
+          </p>
+          <div class="report-pills">
+            <span>08 Neural Network Outputs</span>
+            <span>SHAP Explainability</span>
+            <span>BioBERT Transformer</span>
+          </div>
+        </div>
+        <div class="score-card-wrapper">
+          <div class="score-card">
+            <div class="score-ring"><span>✳</span></div>
+            <small>Profile age</small>
+            <strong>{{ result.age }}</strong>
+            <small>BMI entered · {{ "%.1f"|format(result.bmi) }}</small>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="report-section">
+      <div class="section-inner">
+        <div class="section-head-row">
+          <div>
+            <div class="eyebrow">01 / Measurements</div>
+            <h2>Your submitted snapshot</h2>
+          </div>
+          <span class="section-cap">Entered values only</span>
+        </div>
+        <div class="metrics-grid">
+          <div class="metric">
+            <span>Blood pressure</span>
+            <strong>{{ result.metrics.systolic_bp|int }}/{{ result.metrics.diastolic_bp|int }}</strong>
+            <small>mmHg · submitted value</small>
+          </div>
+          <div class="metric">
+            <span>Blood glucose</span>
+            <strong>{{ result.metrics.glucose|int }} <em>mg/dL</em></strong>
+            <small>Submitted measurement</small>
+          </div>
+          <div class="metric">
+            <span>Total cholesterol</span>
+            <strong>{{ result.metrics.cholesterol|int }} <em>mg/dL</em></strong>
+            <small>Submitted measurement</small>
+          </div>
+          <div class="metric">
+            <span>Resting heart rate</span>
+            <strong>{{ result.metrics.heart_rate|int }} <em>bpm</em></strong>
+            <small>Submitted measurement</small>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="report-section">
+      <div class="section-inner">
+        <div class="section-head-row">
+          <div>
+            <div class="eyebrow">02 / Pattern explorer</div>
+            <h2>Eight model-score patterns</h2>
+            <p class="lead" style="font-size:14px; margin-top:6px;">
+              Each pie shows an experimental model score versus the remainder of a
+              100% display scale. These are not calibrated probabilities or diagnoses.
+            </p>
+          </div>
+        </div>
+
+        <div class="pie-grid">
+          {% for item in result.risks %}
+          <article class="pie-card">
+            <div class="pie-card-top">
+              <span>Model / {{ "%02d"|format(loop.index) }}</span>
+              <span class="tag">Neural Net</span>
+            </div>
+            <div class="pie-visual" style="--percentage: {{ item.score }}%;">
+              <span>{{ "%.1f"|format(item.score) }}<small>%</small></span>
+            </div>
+            <h3>{{ item.title }}</h3>
+            <p class="pie-caption">{{ item.short }}</p>
+            <div class="pie-legend">
+              <span><i class="legend-score"></i>Model score <b>{{ "%.1f"|format(item.score) }}%</b></span>
+              <span><i class="legend-rest"></i>Remaining <b>{{ "%.1f"|format(100-item.score) }}%</b></span>
+            </div>
+            
+            <div class="pie-model">Model: <b>{{ item.model }}</b></div>
+            
+            <div style="margin-top: 12px; padding: 12px; background: var(--white); border-radius: 10px; border: 1px solid var(--line);">
+              <p style="font-size: 10px; font-weight: 700; color: var(--slate-soft); text-transform: uppercase; margin: 0 0 8px; display:flex; justify-content:space-between;">
+                <span>Why this score?</span>
+                <span style="color:var(--sage); font-size:9px;">SHAP</span>
+              </p>
+              
+              <div style="display: flex; justify-content: space-between; font-size: 11px; margin-bottom: 4px;">
+                <span>Glucose</span>
+                <span style="font-weight: 600; color: {{ '#d9534f' if item.explainability.glucose > 0 else '#5cb85c' }}">
+                  {{ '+' if item.explainability.glucose > 0 }}{{ item.explainability.glucose }}%
+                </span>
+              </div>
+              
+              <div style="display: flex; justify-content: space-between; font-size: 11px; margin-bottom: 4px;">
+                <span>BMI</span>
+                <span style="font-weight: 600; color: {{ '#d9534f' if item.explainability.bmi > 0 else '#5cb85c' }}">
+                  {{ '+' if item.explainability.bmi > 0 }}{{ item.explainability.bmi }}%
+                </span>
+              </div>
+
+              <div style="display: flex; justify-content: space-between; font-size: 11px;">
+                <span>Age</span>
+                <span style="font-weight: 600; color: {{ '#d9534f' if item.explainability.age > 0 else '#5cb85c' }}">
+                  {{ '+' if item.explainability.age > 0 }}{{ item.explainability.age }}%
+                </span>
+              </div>
+            </div>
+
+            <div class="pie-symptoms">
+              <p class="label">Analyzed Text / Context</p>
+              <p>{{ item.symptoms }}</p>
+            </div>
+          </article>
+          {% endfor %}
+        </div>
+
+        <div class="report-warning">
+          <span class="icon">ⓘ</span>
+          <div>
+            <b>Important interpretation note</b>
+            <p>
+              {{ result.disclaimer }} Pie slices are visualizations of synthetic model outputs,
+              not actual personal disease probabilities. Several patterns overlap and cannot
+              confirm any condition.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="report-section">
+      <div class="section-inner">
+        <div class="section-head-row">
+          <div>
+            <div class="eyebrow">03 / Data visuals</div>
+            <h2>Measurement display pies</h2>
+            <p class="lead" style="font-size:14px; margin-top:6px;">
+              These circles compare entered values to illustrative display scales only —
+              not medical reference ranges.
+            </p>
+          </div>
+        </div>
+        
+        <div class="mini-pie-grid">
+          {% for item in result.chart %}
+          <article class="mini-pie-card">
+            <div class="mini-pie" style="--percentage: {{ item.width }}%;">
+              <span>{{ "%.1f"|format(item.value) }}</span>
+            </div>
+            <h3>{{ item.label }}</h3>
+            <p>{{ "%.1f"|format(item.value) }}{% if item.unit %} {{ item.unit }}{% endif %}</p>
+            <small>Display scale: {{ item.max }}{% if item.unit %} {{ item.unit }}{% endif %}</small>
+          </article>
+          {% endfor %}
+        </div>
+      </div>
+    </section>
+
+    <!-- NEW PDF DOWNLOAD BUTTON -->
+    <section class="report-section" style="padding-bottom: 0;">
+      <div class="section-inner">
+        <div style="text-align: center; margin: 20px 0 40px 0; padding: 32px; background: var(--white); border-radius: 16px; border: 1px solid var(--line);">
+          <h3 style="font-size: 20px; margin-bottom: 12px; color: var(--slate);">Download your clinical snapshot</h3>
+          <p style="font-size: 14px; color: var(--slate-soft); margin-bottom: 24px;">Export a formatted PDF report of all 8 pattern scores and SHAP explanations.</p>
+          <a href="/download-pdf/{{ result.report_id }}" class="btn btn-primary" style="padding: 14px 32px; font-size: 15px;">
+            Download Clinical PDF Report <span style="font-size: 18px; margin-left: 8px;">↓</span>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <section class="next-banner">
+      <div class="next-banner-inner">
+        <div class="next-banner-icon">→</div>
+        <div class="next-banner-content">
+          <div class="eyebrow">Next page / Step 03</div>
+          <h2>Ready to explore general next steps?</h2>
+          <p>
+            Continue to a separate guide with practical, non-diagnostic suggestions
+            and warning signs for each pattern category.
+          </p>
+        </div>
+        <a class="btn btn-primary" href="/next-steps/{{ result.report_id }}">
+          Open next-step guide <span class="btn-arrow">→</span>
+        </a>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <div><strong>VitalScan</strong> · Educational prototype</div>
+      <div>Never use this demo to diagnose or treat yourself.</div>
+    </div>
+  </footer>
+
+  <script>
+    (function(){
+      const loader = document.querySelector('.page-loader');
+      if(loader) {
+        loader.addEventListener('animationend', () => loader.classList.add('loader-hide'));
+        document.querySelectorAll('a[href]').forEach(a => {
+          a.addEventListener('click', e => {
+            const u = new URL(a.href, location.href);
+            if(u.origin === location.origin && u.pathname !== location.pathname && !a.target && !e.metaKey && !e.ctrlKey && !e.shiftKey){
+              loader.classList.remove('loader-hide');
+              loader.style.animation = 'none'; void loader.offsetWidth; loader.style.animation = '';
+            }
+          });
+        });
+      }
+    })();
+  </script>
+</body>
+</html>
