@@ -5,7 +5,8 @@ python-multipart
 reportlab
 requests
 tensorflow
-transformers
+transformers==4.38.2
+tensorflow==2.15.0
 joblib
 numpy
 pandas
