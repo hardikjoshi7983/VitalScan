@@ -4,9 +4,9 @@ jinja2
 python-multipart
 reportlab
 requests
-tensorflow==2.15.0
+tensorflow==2.14.1
 transformers==4.38.2
-keras==3.0.5
+
 joblib
 numpy
 pandas
