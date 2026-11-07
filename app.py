@@ -4,7 +4,7 @@ import os
 import datetime
 
 # MUST be set before importing TensorFlow
-os.environ["TF_USE_LEGACY_KERAS"] = "1"
+os.environ["TF_USE_LEGACY_KERAS"] = "0"
 
 import tensorflow as tf
 from transformers import AutoTokenizer, TFBertModel
@@ -272,4 +272,4 @@ def download_pdf(report_id: str):
 
 if __name__ == "__main__":
     import uvicorn
-    uvicorn.run(app, host="127.0.0.1", port=8000)
+    uvicorn.run(app, host="0.0.0.0", port=8000)

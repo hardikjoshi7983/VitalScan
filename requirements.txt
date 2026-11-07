@@ -5,10 +5,9 @@ python-multipart
 reportlab
 requests
 tensorflow==2.15.0
-transformers==4.38
-tf-keras==2.15.0
+transformers==4.38.2
+keras==3.0.5
 joblib
 numpy
 pandas
 scikit-learn
-TensorRT
