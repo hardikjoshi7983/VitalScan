@@ -2,7 +2,7 @@
 
 **An AI-powered health risk analysis platform that combines numerical health indicators with symptom-text analysis using a multimodal ANN and BioBERT Transformer model.**
 
-HealthInsight AI is a FastAPI-based web application designed to let users enter selected health measurements and symptom descriptions, then view educational health-pattern scores, possible symptoms, suggested next steps, and a health report. The current training workflow uses a synthetic demonstration dataset.
+Vitalscan is a FastAPI-based web application designed to let users enter selected health measurements and symptom descriptions, then view educational health-pattern scores, possible symptoms, suggested next steps, and a health report. The current training workflow uses a synthetic demonstration dataset.
 
 > **Important:** VitalScan is an experimental educational project. Its outputs are not medical diagnoses, validated clinical predictions, or a substitute for professional medical advice. Do not use it for emergencies or treatment decisions.
 
